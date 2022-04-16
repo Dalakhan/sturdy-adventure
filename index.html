@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!-- Цель создается в JS/ -->
+
+<html>
+<head>
+	<style type="text/css">
+		body {
+			background-image: url(paper.jpg);
+			
+		}
+		.btn {
+			width: 120px;
+			height: 50px;
+			font-size: 12px;
+		}
+		.targets {
+			background: purple;
+			width: 80px;
+			height: 80px;
+			position: absolute;
+			border-radius: 100px;
+		}
+		.poly {
+			width: 1900px; 
+			height: 30px;
+			background: linear-gradient(90deg, #df6871,#f54750,#e88d8d);                                             
+			position: absolute;
+		}
+		.shtora1 {
+			background: #EC3632;
+			position: absolute;
+			height: 900px;
+			width: 250px;
+			border-radius: 0% 0% 100%;
+			z-index: 89999;
+		}
+		.shtora2 {
+			background: #EC3632;
+			position: absolute;
+			height: 900px;
+			width: 250px;
+			border-radius: 0% 0% 100%;
+			z-index: 89999;
+			transform: scaleX(-1);
+			left: 1670px;
+		}
+		.end {
+			display: none;
+			position: absolute;
+			width: 500px;
+			height: 400px;
+			border-radius: 10% 20% 30% 50%;
+			background: linear-gradient(90deg, #d73c49,#ff525a,#e88d8d);
+			top:30%;
+			left:50%;
+			transform:translate(-50%, -50%);
+			z-index: 99999;
+		}
+		.shotka {
+			width: 120px;
+			height: 150px;
+			background: #EC3632;
+			border-radius: 0% 0% 60% 60%;
+			position: absolute;
+		}
+	</style>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+<div class="end">
+	<h1 class="endtext" style="text-align: center;"></h1>
+</div>
+<div class="shotka" style="left: 240px "></div>
+<div class="shotka" style="left: 360px "></div>
+<div class="shotka" style="left: 480px "></div>
+<div class="shotka" style="left: 600px"></div>
+<div class="shotka" style="left: 720px"></div>
+<div class="shotka" style="left: 840px"></div>
+<div class="shotka" style="left: 960px"></div>
+<div class="shotka" style="left: 1080px"></div>
+<div class="shotka" style="left: 1200px"></div>
+<div class="shotka" style="left: 1320px"></div>
+<div class="shotka" style="left: 1440px"></div>
+<div class="shotka" style="left: 1560px"></div>
+<button class="btn btn-dark" style=" position: absolute; left: 13%; top: 18%; ">Начать игру</button>
+<h1 style=" position: absolute; left: 13%; top: 23%; color: white;">Мой счёт:<span class="scoreS1"> 0</span></h1>
+<h2 style=" position: absolute; left: 13%; top:27%; color: white;">Осталось времени:<span class="timerS"> </span></h2>
+<div class="poly" style="top: 330px;"></div>
+
+<div class="poly" style="top: 430px;"></div>
+
+<div class="poly" style="top: 530px;"></div>
+<div class="shtora2"></div>
+<div class="shtora1"></div>
+<div class="btnend" onClick="window.location.reload();" style="width: 200px; height: 200px; margin-left: 500px; background-image: url(rest.png); background-size: 100% 100%; position: absolute;left:20%; top: 70%; opacity: 0; transition: 1s;"></div>
+<script type="text/javascript">
+	let end = document.querySelector('.end')
+	let btn = document.querySelector('.btn')
+	let topPosit = [300, 400, 500]
+	let scoreS = document.querySelector(".scoreS1")
+	let btnEnd = document.querySelector(".btnend")
+	let endText = document.querySelector('.endtext')
+	let score = 0
+	let timerS = document.querySelector('.timerS')
+	let timer = 20000
+	let getRandom = function(arg) {
+		let random = Math.random() * arg;
+		let round = Math.round(random)
+		return round
+	}
+    let	fTime = function() {
+    	timer = timer - 1000
+    	timerS.innerHTML = timer/1000
+    	if (timer<=0) {
+    		timerS.style.display = "none"
+    	}
+    }
+	let createEnemies = function() {
+		let enemy = document.createElement('div');
+		document.body.appendChild(enemy)
+		enemy.classList.add("targets")
+		enemy.style.top = topPosit[getRandom(2)] + "px"
+		let left1 = 20      //getRandom(1200)
+		enemy.style.left = left1 + "px"
+		enemy.style.transition = "1s"
+
+
+		if (getRandom(3)==0) {
+			enemy.style.backgroundImage = "url(uwuPNG.png)";
+			enemy.style.backgroundSize = "100% 100%"
+			enemy.name = "bad"	
+		}
+		let move = function() {
+			left1 = left1 + 4
+			enemy.style.left = left1 + "px"
+			if (left1==2280) {
+				score = score - 1
+				enemy.style.display = "none"	
+				scoreS.innerHTML = score
+				if (enemy.name=="bad") {
+					score = score + 2
+					scoreS.innerHTML = score				
+				}
+			}
+		}
+		setInterval(move, 20)
+		enemy.onclick = function() {
+			enemy.style.display = "none";{
+			score = score + 1
+			console.log("это спанч")
+			scoreS.innerHTML = score
+				
+			}
+				
+			if(enemy.name=="bad") {
+				score = score - 2
+				console.log("ПЛОХО((((")
+				scoreS.innerHTML = score
+			}
+		}
+	}
+	
+
+	btn.onclick = function() {
+		btn.style.display = "none"
+		let interval = setInterval(createEnemies, 500)
+		setInterval(fTime, 1000)
+		let stopGame = function() {
+			clearInterval(interval)
+			if(score>=12) {
+				end.style.display = "block"
+				btnEnd.style.opacity = "1"			
+				endText.innerHTML = "Ура, ПОООБЕЕЕДА"
+			}else {
+				end.style.display = "block"
+				endText.innerHTML = "Проигрыш"
+				btnEnd.style.opacity = "1"		
+			}
+		}
+		setTimeout(stopGame, timer)//timer это п при которой когда нажимаешь на фило то + 1 сек
+	}
+
+</script>
+</body>
+</html>
